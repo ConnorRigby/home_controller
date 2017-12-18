@@ -1,0 +1,4 @@
+<div class="mySensorsSensor card" id="mySensorsSensor<%= sensor.id %>">
+  <h5> <strong> Sensor Type: </strong> <%= sensor.type %> </h5>
+  <h5> <strong> Sensor ID: </strong> <%= sensor.child_sensor_id %> </h5>
+</div>

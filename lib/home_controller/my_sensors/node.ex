@@ -6,6 +6,14 @@ defmodule HomeController.MySensors.Node do
   alias HomeController.MySensors
   alias MySensors.Node
 
+  @typedoc @moduledoc
+  @type t :: %__MODULE__{}
+
+  @optional_params [:battery_level, :protocol, :sketch_name, :sketch_version, :config]
+  @required_params []
+
+  @derive {Poison.Encoder, except: [:__meta__, :__struct]}
+
   schema "nodes" do
     has_many :sensors, MySensors.Sensor
     field :battery_level, :integer
@@ -15,12 +23,6 @@ defmodule HomeController.MySensors.Node do
     field :config, :string
     timestamps()
   end
-
-  @typedoc @moduledoc
-  @type t :: %__MODULE__{}
-
-  @optional_params [:battery_level, :protocol, :sketch_name, :sketch_version, :config]
-  @required_params []
 
   def changeset(%Node{} = node, params \\ %{}) do
     node

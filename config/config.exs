@@ -21,14 +21,17 @@ config :bootloader,
   app: Mix.Project.config[:app]
 
 config :home_controller, :my_sensors, [
-  # transport: HomeController.MySensors.Transport.UART
-  transport: HomeController.MySensors.Transport.Test
+  transport: HomeController.MySensors.Transport.UART,
+  lan_app: [
+    port: 4001
+  ]
+  # transport: HomeController.MySensors.Transport.Test
 ]
 
 config :home_controller, :my_sensors_transport, [
   speed: 115200,
   seperator: "\n",
-  device: "/dev/ttyUSB0"
+  device: "/dev/ttyUSB1"
 ]
 
 # config :home_controller, :my_sensors, [

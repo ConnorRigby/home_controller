@@ -1,0 +1,16 @@
+<div class="mySensorsNode card" id="mySensorsNode<%= node.id %>">
+  <h3> <%= node.sketch_name %> </h3>
+  <h4> <strong> version: </strong> <%= node.sketch_version %> </h4>
+  <h4> <strong> protocol: </strong> <%= node.protocol %> </h4>
+  <h4> <strong> node id: </strong> <%= node.id %> </h4>
+  <%= if node.battery_level do %>
+    <%= node.battery_level %>
+  <% end %>
+
+  <div id="sensors">
+    <h4> <strong> Sensors </strong> </h4>
+    <%= for sensor <- node.sensors do %>
+      <%= HomeController.MySensors.Web.LanApp.View.render("sensor", sensor: sensor) %>
+    <% end %>
+  </div>
+</div>
