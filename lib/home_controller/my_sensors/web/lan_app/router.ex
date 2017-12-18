@@ -30,6 +30,14 @@ defmodule HomeController.MySensors.Web.LanApp.Router do
     |> send_resp(200, json)
   end
 
+  delete "/api/v1/nodes/:id" do
+    node = Context.delete_node(id)
+    json = Poison.encode!(%{data: node})
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, json)
+  end
+
   get "/api/v1/nodes/:node_id/sensors" do
     sensors = Context.all_sensors(node_id)
     json = Poison.encode!(%{data: sensors})
@@ -46,8 +54,21 @@ defmodule HomeController.MySensors.Web.LanApp.Router do
     |> send_resp(200, json)
   end
 
+  get "/api/v1/gateway/status" do
+    status = MySensors.Gateway.status()
+    json = Poison.encode!(%{data: status})
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, json)
+  end
+
   get "/" do
     render_page(conn, "index")
+  end
+
+  get "/status" do
+    gateway_status = MySensors.Gateway.status()
+    render_page(conn, "status", [gateway_status: gateway_status])
   end
 
   get "/nodes" do

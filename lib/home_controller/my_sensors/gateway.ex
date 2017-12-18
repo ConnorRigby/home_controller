@@ -9,17 +9,23 @@ defmodule HomeController.MySensors.Gateway do
 
   defmodule State do
     @moduledoc false
-    defstruct [:transport, :transport_pid]
+    defstruct [:transport, :transport_pid, :status]
     @typedoc false
     @type t :: %__MODULE__{
       transport: module,
-      transport_pid: pid
+      transport_pid: pid,
+      status: map
     }
   end
 
   @doc false
   def start_link do
     GenStage.start_link(__MODULE__, [], [name: __MODULE__])
+  end
+
+  @doc "Get Gateway status."
+  def status do
+    GenStage.call(__MODULE__, :status)
   end
 
   @doc false
@@ -30,7 +36,7 @@ defmodule HomeController.MySensors.Gateway do
       mod when is_atom(mod) ->
         case mod.start_link() do
           {:ok, pid} ->
-            state = struct(State, [transport: transport, transport_pid: pid])
+            state = struct(State, [transport: transport, transport_pid: pid, status: %{}])
             gen_stage_opts = [
               subscribe_to: [pid]
             ]
@@ -39,6 +45,10 @@ defmodule HomeController.MySensors.Gateway do
           err -> err
         end
     end
+  end
+
+  def handle_call(:status, _, state) do
+    {:reply, state.status, [], state}
   end
 
   @doc false
@@ -137,8 +147,20 @@ defmodule HomeController.MySensors.Gateway do
     end
   end
 
-  defp do_handle_packet(%Packet{command: @command_INTERNAL, type: _}, state),
-    do: {[], state}
+
+  defp do_handle_packet(%Packet{command: @command_INTERNAL, type: @internal_LOG_MESSAGE} = packet, state) do
+    Logger.info "Node #{packet.node_id} => #{packet.payload}"
+    {[], state}
+  end
+
+  defp do_handle_packet(%Packet{command: @command_INTERNAL, type: @internal_GATEWAY_READY}, state) do
+    {[], %{state | status: Map.put(state.status, :ready, true)}}
+  end
+
+  defp do_handle_packet(%Packet{command: @command_INTERNAL} = packet, state) do
+    Logger.debug "Unhandled internal message: #{inspect packet}"
+    {[], state}
+  end
 
   defp do_handle_packet(%Packet{command: @command_STREAM}, state),
     do: {[], state}

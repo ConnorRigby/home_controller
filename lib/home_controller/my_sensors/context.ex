@@ -10,6 +10,15 @@ defmodule HomeController.MySensors.Context do
     Repo.one(from n in Node, where: n.id == ^id, preload: [sensors: :sensor_values])
   end
 
+  @doc "Delete a node by id."
+  def delete_node(id) do
+    node = get_node(id)
+    case Repo.delete(node) do
+      {:ok, %Node{} = deleted_node} -> deleted_node
+      _ -> nil
+    end
+  end
+
   def all_nodes() do
     Repo.all(Node) |> Repo.preload([sensors: :sensor_values])
   end

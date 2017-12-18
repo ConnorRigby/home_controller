@@ -16,7 +16,7 @@ defmodule HomeController.MySensors.Sensor do
 
   schema "sensors" do
     belongs_to :node, Node
-    has_many :sensor_values, SensorValue
+    has_many :sensor_values, SensorValue, on_delete: :delete_all
     field :child_sensor_id, :integer
     field :type, :string
     timestamps()

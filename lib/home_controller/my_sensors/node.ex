@@ -15,7 +15,7 @@ defmodule HomeController.MySensors.Node do
   @derive {Poison.Encoder, except: [:__meta__, :__struct]}
 
   schema "nodes" do
-    has_many :sensors, MySensors.Sensor
+    has_many :sensors, MySensors.Sensor, on_delete: :delete_all
     field :battery_level, :integer
     field :protocol, :string
     field :sketch_name, :string
