@@ -16,6 +16,9 @@ defmodule HomeController.MySensors.Node do
     timestamps()
   end
 
+  @typedoc @moduledoc
+  @type t :: %__MODULE__{}
+
   @optional_params [:battery_level, :protocol, :sketch_name, :sketch_version, :config]
   @required_params []
 

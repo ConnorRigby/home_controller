@@ -11,6 +11,7 @@ defmodule HomeController.MySensors.Transport.UART do
 
   def write(packet), do: GenStage.call(__MODULE__, {:write, packet}, :infinity)
 
+  @doc false
   def start_link do
     GenStage.start_link(__MODULE__, [], [name: __MODULE__])
   end

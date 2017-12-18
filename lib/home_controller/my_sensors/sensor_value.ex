@@ -13,6 +13,9 @@ defmodule HomeController.MySensors.SensorValue do
     timestamps()
   end
 
+  @typedoc @moduledoc
+  @type t :: %__MODULE__{}
+
   @optional_params []
   @required_params [:sensor_id, :type, :value]
 

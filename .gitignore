@@ -3,6 +3,8 @@
 /db
 /deps
 /*.ez
+*.sqlite3
+doc
 
 # Nerves artifacts
 /_images
@@ -10,4 +12,3 @@
 
 # Generate on crash by the VM
 erl_crash.dump
-*.sqlite3
