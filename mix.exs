@@ -21,6 +21,7 @@ defmodule HomeController.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases(@target),
+     elixirc_paths: elixirc_paths(Mix.env(), @target),
      deps: deps()]
   end
 
@@ -62,6 +63,8 @@ defmodule HomeController.Mixfile do
   def system("qemu_arm"), do: [{:nerves_system_qemu_arm, ">= 0.0.0", runtime: false}]
   def system("x86_64"), do: [{:nerves_system_x86_64, ">= 0.0.0", runtime: false}]
   def system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
+
+  defp elixirc_paths(:dev, _), do: ["lib", "test/support"]
 
   # We do not invoke the Nerves Env when running on the Host
   def aliases("host"), do: []

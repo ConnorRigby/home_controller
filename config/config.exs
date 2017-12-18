@@ -22,6 +22,7 @@ config :bootloader,
 
 config :home_controller, :my_sensors, [
   transport: HomeController.MySensors.Transport.UART
+  # transport: HomeController.MySensors.Transport.Test
 ]
 
 config :home_controller, :my_sensors_transport, [
@@ -29,6 +30,13 @@ config :home_controller, :my_sensors_transport, [
   seperator: "\n",
   device: "/dev/ttyUSB0"
 ]
+
+config :home_controller, HomeController.MySensors.Repo,
+  adapter: Sqlite.Ecto2,
+  database: "my_sensors.sqlite3",
+  priv: "priv/my_sensors/repo"
+
+config :home_controller, ecto_repos: [HomeController.MySensors.Repo]
 
 import_config "#{Mix.env()}.exs"
 

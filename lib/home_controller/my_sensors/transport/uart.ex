@@ -37,6 +37,7 @@ defmodule HomeController.MySensors.Transport.UART do
 
   def handle_info({:nerves_uart, _, command}, state) do
     with {:ok, decoded} <- HomeController.MySensors.Packet.decode(command) do
+      Logger.debug "packet in: #{inspect decoded}"
       {:noreply, [decoded], state}
     else
       {:error, reason} ->
@@ -47,6 +48,7 @@ defmodule HomeController.MySensors.Transport.UART do
 
   def handle_call({:write, packet}, _from, state) do
     with {:ok, packet} <- HomeController.MySensors.Packet.encode(packet) do
+      Logger.debug "packet out: #{inspect packet}"
       r = UART.write(state.uart, packet)
       {:reply, r, [], state}
     else

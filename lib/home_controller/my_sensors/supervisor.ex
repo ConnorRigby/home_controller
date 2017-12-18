@@ -11,6 +11,7 @@ defmodule HomeController.MySensors.Supervisor do
 
   def init([]) do
     children = [
+      supervisor(MySensors.Repo, []),
       worker(MySensors.Gateway, [])
     ]
     opts = [strategy: :one_for_all]

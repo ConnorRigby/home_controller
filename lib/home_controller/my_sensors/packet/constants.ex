@@ -150,6 +150,11 @@ defmodule HomeController.MySensors.Packet.Constants do
       @ack_TRUE true
       @ack_FALSE false
       @ack_UNKNOWN :ack_unknown
+
+      @stream_FIRMWARE_BLOCK_SIZE 16;
+      @internal_BROADCAST_ADDRESS 255;
+      @internal_NODE_SENSOR_ID 255;
+
     end
   end
 end

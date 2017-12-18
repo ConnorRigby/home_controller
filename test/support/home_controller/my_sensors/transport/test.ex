@@ -13,7 +13,7 @@ defmodule HomeController.MySensors.Transport.Test do
     GenStage.call(__MODULE__, {:dispatch, packets})
   end
 
-  def write(%Packet{} = packet) do
+  def write(%Packet{} = _packet) do
     :ok
   end
 
