@@ -50,7 +50,15 @@ config :home_controller, HomeController.MySensors.Repo,
 
 config :home_controller, ecto_repos: [HomeController.MySensors.Repo]
 
+config :home_controller, system_init: [
+  before_system: [],
+  after_init: []
+]
+
 import_config "#{Mix.env()}.exs"
+if Mix.Project.config[:target] != "host" do
+  import_config "target.exs"
+end
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

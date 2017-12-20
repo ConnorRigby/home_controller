@@ -60,6 +60,7 @@ defmodule HomeController.Mixfile do
     [
       {:bootloader, "~> 0.1"},
       {:nerves_runtime, "~> 0.4"},
+      {:nerves_network, "~> 0.3.6"}
     ] ++ system(target)
   end
 
@@ -73,9 +74,10 @@ defmodule HomeController.Mixfile do
   def system("x86_64"), do: [{:nerves_system_x86_64, ">= 0.0.0", runtime: false}]
   def system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
 
-  defp elixirc_paths(:dev, _), do: ["lib", "test/support"]
-  defp elixirc_paths(:test, _), do: ["lib", "test/support"]
-  defp elixirc_paths(_, _), do: ["lib"]
+  defp elixirc_paths(:dev, _),   do: ["lib", "test/support"]
+  defp elixirc_paths(:test, _),  do: ["lib", "test/support"]
+  defp elixirc_paths(_, "host"), do: ["lib"]
+  defp elixirc_paths(_, _target), do: ["lib", "firmware"]
 
   # We do not invoke the Nerves Env when running on the Host
   def aliases("host"), do: []
