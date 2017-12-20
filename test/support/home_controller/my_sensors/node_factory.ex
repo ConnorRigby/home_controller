@@ -5,7 +5,7 @@ defmodule HomeController.MySensors.NodeFactory do
 
   alias HomeController.MySensors.Transport.Local
   import Local, only: [dispatch: 1]
-  alias HomeController.MySensors.Packet
+  alias HomeController.MySensors.{Packet, Node}
   use HomeController.MySensors.Packet.Constants
   alias HomeController.MySensors.Context
 
@@ -58,12 +58,12 @@ defmodule HomeController.MySensors.NodeFactory do
     node
   end
 
-  def generate_sensor(node, sensor_id, type, values) do
+  def generate_sensor(%Node{id: node_id}, sensor_id, type, values) do
     %Packet{
       command: @command_PRESENTATION,
       child_sensor_id: sensor_id,
       type: type,
-      node_id: node.id,
+      node_id: node_id,
       payload: ""
     } |> dispatch()
 
@@ -72,7 +72,7 @@ defmodule HomeController.MySensors.NodeFactory do
         command: @command_SET,
         child_sensor_id: sensor_id,
         type: type,
-        node_id: node.id,
+        node_id: node_id,
         payload: to_string(value)
       } |> dispatch()
     end

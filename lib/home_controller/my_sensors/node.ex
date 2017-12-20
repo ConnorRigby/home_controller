@@ -12,7 +12,7 @@ defmodule HomeController.MySensors.Node do
   @optional_params [:battery_level, :protocol, :sketch_name, :sketch_version, :config]
   @required_params []
 
-  @derive {Poison.Encoder, except: [:__meta__, :__struct]}
+  @derive {Poison.Encoder, except: [:__meta__, :__struct__, :sensors]}
 
   schema "nodes" do
     has_many :sensors, MySensors.Sensor, on_delete: :delete_all

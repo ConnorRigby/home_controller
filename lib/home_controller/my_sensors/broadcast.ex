@@ -1,7 +1,7 @@
 defmodule HomeController.MySensors.Broadcast do
   @moduledoc "Stage to Broadcast Repo Data."
 
-  # alias HomeController.MySensors
+  alias HomeController.MySensors.{Node, Sensor, SensorValue}
   use GenServer
 
   @doc false

@@ -30,10 +30,10 @@ defmodule HomeController.MySensors.Context do
   end
 
   def new_node do
-    {:ok, node} = struct(Node, [])
+    struct(Node, [])
       |> Node.changeset(%{})
-      |> Repo.insert()
-    node
+      |> Repo.insert!()
+      |> Repo.preload([sensors: :sensor_values])
   end
 
   defp insert_or_update_node(changeset) do
@@ -113,6 +113,7 @@ defmodule HomeController.MySensors.Context do
     ]
     changeset = (get_sensor(node_id, sid) || struct(Sensor, sensor_opts))
       |> Sensor.changeset(Map.new(sensor_opts))
+      |> Ecto.Changeset.put_assoc(:sensor_values, [])
 
     Multi.new()
       |> Multi.insert_or_update(:insert_or_update, changeset)

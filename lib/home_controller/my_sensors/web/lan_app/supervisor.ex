@@ -1,7 +1,7 @@
 defmodule HomeController.MySensors.Web.LanApp.Supervisor do
   @moduledoc "Local Area Network WebApp."
 
-  alias HomeController.MySensors.Web.LanApp.{Router, SocketHandler}
+  alias HomeController.MySensors.Web.LanApp.{Router, ResourceSocket}
   @port Application.get_env(:home_controller, :my_sensors)[:lan_app][:port]
 
   use Supervisor
@@ -24,7 +24,7 @@ defmodule HomeController.MySensors.Web.LanApp.Supervisor do
   defp cowboy_dispatch do
     {:_,
       [
-        {"/ws", SocketHandler, []},
+        {"/ws", ResourceSocket, []},
         {:_, Plug.Adapters.Cowboy.Handler, {Router, []}},
       ]
     }

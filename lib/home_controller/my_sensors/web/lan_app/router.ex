@@ -109,6 +109,10 @@ defmodule HomeController.MySensors.Web.LanApp.Router do
     render_page(conn, "nodes", [nodes: nodes])
   end
 
+  get "/socket_test" do
+    render_page(conn, "socket_test", [])
+  end
+
   defp redir(conn, loc) do
     conn
     |> put_resp_header("location", loc)
