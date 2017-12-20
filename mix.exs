@@ -46,7 +46,8 @@ defmodule HomeController.Mixfile do
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 1.0"},
-      {:poison, "~> 3.1.0"}
+      {:poison, "~> 3.1.0"},
+      {:faker, "~> 0.9", only: [:dev, :test]}
     ] ++ deps(@target)
   end
 

@@ -3,7 +3,7 @@ defmodule HomeController.MySensors.Repo.Migrations.AddSensorsTable do
 
   def change do
     create table("sensors") do
-      add :node_id, references("nodes")
+      add :node_id, references("nodes", on_delete: :delete_all)
       add :child_sensor_id, :integer
       add :type, :string
       timestamps()
