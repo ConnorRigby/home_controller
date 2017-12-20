@@ -21,8 +21,8 @@ config :bootloader,
   app: Mix.Project.config[:app]
 
 config :home_controller, :my_sensors, [
-  transport: HomeController.MySensors.Transport.UART
-  # transport: HomeController.MySensors.Transport.Test
+  # transport: HomeController.MySensors.Transport.UART
+  transport: HomeController.MySensors.Transport.Test
 ]
 
 config :home_controller, :my_sensors_transport, [
