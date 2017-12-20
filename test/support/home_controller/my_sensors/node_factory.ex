@@ -3,8 +3,8 @@ defmodule HomeController.MySensors.NodeFactory do
   Generate Nodes whenever you want.
   """
 
-  alias HomeController.MySensors.Transport.Test
-  import Test, only: [dispatch: 1]
+  alias HomeController.MySensors.Transport.Local
+  import Local, only: [dispatch: 1]
   alias HomeController.MySensors.Packet
   use HomeController.MySensors.Packet.Constants
   alias HomeController.MySensors.Context
@@ -12,7 +12,7 @@ defmodule HomeController.MySensors.NodeFactory do
   @app_version Mix.Project.config[:version]
 
   def generate_node(node  \\ nil, opts \\ []) do
-    Test.register(self())
+    Local.register(self())
 
     # Broadcast new node, or use provided one.
     node = if node do

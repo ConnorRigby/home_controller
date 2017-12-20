@@ -1,5 +1,5 @@
-defmodule HomeController.MySensors.Transport.Test do
-  @moduledoc "Test implementation of a MySensors transport."
+defmodule HomeController.MySensors.Transport.Local do
+  @moduledoc "Elixir GenStage implementation of a MySensors.Transport."
   @behaviour HomeController.MySensors.Transport
   alias HomeController.MySensors.Packet
 
@@ -10,10 +10,7 @@ defmodule HomeController.MySensors.Transport.Test do
     GenStage.call(__MODULE__, {:dispatch, packet})
   end
 
-  def dispatch([%Packet{} | _rest] = packets) do
-    GenStage.call(__MODULE__, {:dispatch, packets})
-  end
-
+  @doc "Register a process to receive callback packets."
   def register(pid) do
     GenStage.call(__MODULE__, {:register, pid})
   end
@@ -37,10 +34,6 @@ defmodule HomeController.MySensors.Transport.Test do
 
   def handle_call({:register, pid}, _from, state) do
     {:reply, :ok, [], %{state | registered: pid}}
-  end
-
-  def handle_call({:dispatch, packets}, _, state) when is_list(packets) do
-    {:reply, :ok, packets, state}
   end
 
   def handle_call({:dispatch, packet}, _, state) do

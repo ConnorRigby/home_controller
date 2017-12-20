@@ -5,7 +5,7 @@ defmodule HomeController.MySensors.Transport do
   Should have configuration in `config.exs`
 
       config :home_controller, :my_sensors, [
-        transport: HomeController.MySensors.Transport.Test
+        transport: HomeController.MySensors.Transport.Local
       ]
 
   each `transport` may also have a config bag:

@@ -22,7 +22,7 @@ config :bootloader,
 
 config :home_controller, :my_sensors, [
   # transport: HomeController.MySensors.Transport.UART,
-  transport: HomeController.MySensors.Transport.Test,
+  transport: HomeController.MySensors.Transport.Local,
   lan_app: [
     port: 4001
   ]

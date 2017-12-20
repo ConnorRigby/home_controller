@@ -71,6 +71,8 @@ defmodule HomeController.Mixfile do
   def system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
 
   defp elixirc_paths(:dev, _), do: ["lib", "test/support"]
+  defp elixirc_paths(:test, _), do: ["lib", "test/support"]
+  defp elixirc_paths(_, _), do: ["lib"]
 
   # We do not invoke the Nerves Env when running on the Host
   def aliases("host"), do: []
