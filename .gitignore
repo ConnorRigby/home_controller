@@ -3,7 +3,8 @@
 /db
 /deps
 /*.ez
-*.sqlite3
+*.sqlite3*
+/cover
 doc
 
 # Nerves artifacts

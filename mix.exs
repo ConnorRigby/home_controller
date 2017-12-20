@@ -22,6 +22,8 @@ defmodule HomeController.Mixfile do
      start_permanent: Mix.env == :prod,
      aliases: aliases(@target),
      elixirc_paths: elixirc_paths(Mix.env(), @target),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["test": :test, "coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
      deps: deps()]
   end
 
@@ -47,7 +49,8 @@ defmodule HomeController.Mixfile do
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 1.0"},
       {:poison, "~> 3.1.0"},
-      {:faker, "~> 0.9", only: [:dev, :test]}
+      {:faker, "~> 0.9", only: [:dev, :test]},
+      {:excoveralls, "~> 0.7", only: :test}
     ] ++ deps(@target)
   end
 
