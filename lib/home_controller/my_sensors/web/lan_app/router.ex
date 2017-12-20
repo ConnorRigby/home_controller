@@ -62,6 +62,39 @@ defmodule HomeController.MySensors.Web.LanApp.Router do
     |> send_resp(200, json)
   end
 
+  get "/api/v1/gateway/raw_packet/" do
+    packet = conn.params["packet"]
+    handle_raw_packet(conn, packet)
+  end
+
+  post "/api/v1/gateway/raw_packet" do
+    packet = conn.body_params["packet"]
+    handle_raw_packet(conn, packet)
+  end
+
+  defp handle_raw_packet(conn, nil) do
+    json = Poison.encode!(%{data: %{ok: false, error: "packet can't be nil"}})
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, json)
+  end
+
+  defp handle_raw_packet(conn, packet) do
+    with {:ok, %MySensors.Packet{} = packet} <- MySensors.Packet.decode(packet),
+      :ok <- MySensors.Gateway.write_packet(packet) do
+        json = Poison.encode!(%{data: %{ok: true}})
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, json)
+      else
+        error ->
+          json = Poison.encode!(%{data: %{ok: false, error: "#{inspect error}"}})
+          conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(200, json)
+      end
+  end
+
   get "/" do
     render_page(conn, "index")
   end

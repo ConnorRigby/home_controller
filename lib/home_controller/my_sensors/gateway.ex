@@ -28,6 +28,11 @@ defmodule HomeController.MySensors.Gateway do
     GenStage.call(__MODULE__, :status)
   end
 
+  @doc "Send a packet."
+  def write_packet(%Packet{} = packet) do
+    GenStage.call(__MODULE__, {:write_packet, packet})
+  end
+
   @doc false
   def init([]) do
     transport = Application.get_env(:home_controller, :my_sensors)[:transport]
@@ -47,6 +52,11 @@ defmodule HomeController.MySensors.Gateway do
 
   def handle_call(:status, _, state) do
     {:reply, state.status, [], state}
+  end
+
+  def handle_call({:write_packet, packet}, _, state) do
+    res = state.transport.write(packet)
+    {:reply, res, [], state}
   end
 
   @doc false
