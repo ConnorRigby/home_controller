@@ -1,5 +1,10 @@
 defmodule HomeController.MySensors.Packet.Constants do
-  @moduledoc "Constant values for MySensors packets."
+  @moduledoc """
+  Constant values for MySensors packets.
+  Using this module will define module attributes for the
+  MySensors constants. Most things defined from
+  [MyMessage.h](https://github.com/mysensors/MySensors/blob/development/core/MyMessage.h)
+  """
 
   @doc false
   defmacro __using__(_) do

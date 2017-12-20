@@ -21,15 +21,27 @@ config :bootloader,
   app: Mix.Project.config[:app]
 
 config :home_controller, :my_sensors, [
-  # transport: HomeController.MySensors.Transport.UART
+  # transport: HomeController.MySensors.Transport.UART,
   transport: HomeController.MySensors.Transport.Test
+  lan_app: [
+    port: 4001
+  ]
 ]
 
 config :home_controller, :my_sensors_transport, [
   speed: 115200,
   seperator: "\n",
-  device: "/dev/ttyUSB0"
+  device: "/dev/ttyUSB1"
 ]
+
+# config :home_controller, :my_sensors, [
+#   transport: HomeController.MySensors.Transport.GenTCP
+# ]
+#
+# config :home_controller, :my_sensors_transport, [
+#   host: 'localhost',
+#   port: 5003
+# ]
 
 config :home_controller, HomeController.MySensors.Repo,
   adapter: Sqlite.Ecto2,

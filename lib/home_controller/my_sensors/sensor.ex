@@ -6,16 +6,21 @@ defmodule HomeController.MySensors.Sensor do
   alias HomeController.MySensors
   alias MySensors.{Node, Sensor, SensorValue}
 
+  @typedoc @moduledoc
+  @type t :: %__MODULE__{}
+
+  @optional_params []
+  @required_params [:node_id, :child_sensor_id, :type]
+
+  @derive {Poison.Encoder, except: [:__meta__, :__struct, :node]}
+
   schema "sensors" do
     belongs_to :node, Node
-    has_many :sensor_values, SensorValue
+    has_many :sensor_values, SensorValue, on_delete: :delete_all
     field :child_sensor_id, :integer
     field :type, :string
     timestamps()
   end
-
-  @optional_params []
-  @required_params [:node_id, :child_sensor_id, :type]
 
   def changeset(%Sensor{} = sensor, params \\ %{}) do
     sensor

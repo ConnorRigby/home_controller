@@ -32,7 +32,7 @@ defmodule HomeController.Mixfile do
 
   def application(_target) do
     [mod: {HomeController.Application, []},
-     extra_applications: [:logger]]
+     extra_applications: [:logger, :inets]]
   end
 
   def deps do
@@ -42,6 +42,11 @@ defmodule HomeController.Mixfile do
       {:nerves_uart, "~> 0.1.2"},
       {:ecto, "~> 2.2.2"},
       {:sqlite_ecto2, "~> 2.2.1"},
+      {:ex_doc, "~> 0.18.1", only: [:dev, :test]},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:cowboy, "~> 1.0.0"},
+      {:plug, "~> 1.0"},
+      {:poison, "~> 3.1.0"}
     ] ++ deps(@target)
   end
 
