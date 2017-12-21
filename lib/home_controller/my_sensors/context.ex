@@ -9,7 +9,12 @@ defmodule HomeController.MySensors.Context do
   @doc "Get a node"
   @spec get_node(integer) :: Node.t | nil
   def get_node(id) do
-    Repo.one(from n in Node, where: n.id == ^id, preload: [sensors: :sensor_values])
+    Repo.one(from n in Node,
+      where: n.id == ^id,
+      left_join: sensors in assoc(n, :sensors),
+      left_join: sensor_values in assoc(sensors, :sensor_values),
+      preload: [sensors: {sensors, sensor_values: sensor_values}]
+    )
   end
 
   @doc "Delete a node by id."
@@ -111,9 +116,10 @@ defmodule HomeController.MySensors.Context do
       child_sensor_id: sid,
       type: to_string(packet.type)
     ]
-    changeset = (get_sensor(node_id, sid) || struct(Sensor, sensor_opts))
+    sensor = (get_sensor(node_id, sid) || struct(Sensor, sensor_opts))
+    changeset = sensor
       |> Sensor.changeset(Map.new(sensor_opts))
-      |> Ecto.Changeset.put_assoc(:sensor_values, [])
+      |> Ecto.Changeset.put_assoc(:sensor_values, sensor.sensor_values)
 
     Multi.new()
       |> Multi.insert_or_update(:insert_or_update, changeset)

@@ -24,7 +24,7 @@ defmodule HomeController.MySensors.Web.LanApp.Supervisor do
   defp cowboy_dispatch do
     {:_,
       [
-        {"/ws", ResourceSocket, []},
+        {"/resource_socket", ResourceSocket, []},
         {:_, Plug.Adapters.Cowboy.Handler, {Router, []}},
       ]
     }

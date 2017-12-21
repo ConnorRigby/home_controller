@@ -30,7 +30,7 @@ function destroyNode(id) {
     <div id="sensors">
       <h4> <strong> Sensors </strong> </h4>
       <%= for sensor <- node.sensors do %>
-        <%= HomeController.MySensors.Web.LanApp.View.render("sensor", sensor: sensor) %>
+        <%= HomeController.MySensors.Web.LanApp.View.render("sensor", sensor: sensor, node: node) %>
       <% end %>
     </div>
   </div>

@@ -2,5 +2,9 @@
   <div class="card-block">
     <h5> <strong> Sensor Type: </strong> <%= sensor.type %> </h5>
     <h5> <strong> Sensor ID: </strong> <%= sensor.child_sensor_id %> </h5>
+    <%= if sensor.child_sensor_id != 255 do %>
+      <%= HomeController.MySensors.Web.LanApp.View.render("sensors/#{sensor.type}", [sensor_values: sensor.sensor_values, sensor: sensor, node: node]) %>
+    <% end %>
+
   </div>
 </div>

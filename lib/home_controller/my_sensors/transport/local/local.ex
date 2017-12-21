@@ -26,14 +26,15 @@ defmodule HomeController.MySensors.Transport.Local do
 
   @doc false
   def init([]) do
-    {:producer, %{registered: nil}}
+    {:producer, %{registered: []}}
   end
 
   @doc false
   def handle_demand(_, state), do: {:noreply,  [], state}
 
   def handle_call({:register, pid}, _from, state) do
-    {:reply, :ok, [], %{state | registered: pid}}
+    Process.monitor(pid)
+    {:reply, :ok, [], %{state | registered: [pid | state.registered]}}
   end
 
   def handle_call({:dispatch, packet}, _, state) do
@@ -41,9 +42,13 @@ defmodule HomeController.MySensors.Transport.Local do
   end
 
   def handle_call({:write, packet}, _, state) do
-    if state.registered do
-      send state.registered, packet
+    for pid <- state.registered do
+      send pid, packet
     end
     {:reply, :ok, [], state}
+  end
+
+  def handle_info({:DOWN, _, :process, pid, _}, state) do
+    {:noreply, [], %{state | registered: List.delete(state.registered, pid)}}
   end
 end
